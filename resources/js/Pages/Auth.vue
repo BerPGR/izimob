@@ -10,12 +10,12 @@
 
         <div class="flex flex-col items-center justify-center md:flex-1 md:shadow-[0_0_30px_rgba(0,0,0,0.25)]">
             <Transition enter-active-class="transition-opacity duration-400 ease-out" enter-from-class="opacity-0"
-            enter-to-class="opacity-100" leave-active-class="transition-opacity duration-400 ease-in"
-            leave-from-class="opacity-100" leave-to-class="opacity-0" mode="out-in">
-            
-            <div v-if="!showRegisterText" key="login"
-            class="flex flex-col items-center justify-center w-full max-w-[80%] p-6">
-            <img src="../../assets/no-text-logo.png" class="w-1/5 mb-6" />
+                enter-to-class="opacity-100" leave-active-class="transition-opacity duration-400 ease-in"
+                leave-from-class="opacity-100" leave-to-class="opacity-0" mode="out-in">
+
+                <div v-if="!showRegisterText" key="login"
+                    class="flex flex-col items-center justify-center w-full max-w-[80%] p-6">
+                    <img src="../../assets/no-text-logo.png" class="w-1/5 mb-6" />
                     <h2 class="text-2xl font-semibold mb-2">
                         Entrar em conta
                     </h2>
@@ -32,15 +32,20 @@
                                 placeholder="••••••••" />
                         </fieldset>
 
-                        <div class="flex flex-row-reverse items-center justify-between">
+                        <div class="flex items-center justify-between">
+                            <fieldset class="fieldset flex items-center">
+                                <label class="label cursor-pointer" for="remember">Lembrar de mim</label>
+                                <input type="checkbox" id="remember" v-model="loginForm.remember"
+                                    class="checkbox checkbox-primary checkbox-sm" />
+                            </fieldset>
                             <Link class="btn btn-link">
                                 Esqueceu sua senha?
                             </Link>
-
-                            <button class="btn btn-primary mt-4 w-1/3" type="submit">
-                                Entrar
-                            </button>
                         </div>
+
+                        <button class="btn btn-primary mt-4 w-1/3" type="submit">
+                            Entrar
+                        </button>
                     </form>
                     <div class="divider my-8">OU</div>
                     <button class="btn btn-secondary btn-outline w-full" @click="showRegisterText = true">
@@ -53,7 +58,7 @@
                     <h2 class="text-2xl font-semibold mb-2">
                         Criação de conta
                     </h2>
-                    <RegisterForm v-model="registerForm" @submit="submitRegister"/>
+                    <RegisterForm v-model="registerForm" @submit="submitRegister" />
                     <div class="divider my-8">OU</div>
                     <button class="btn btn-secondary btn-outline w-full" @click="showRegisterText = false">
                         Voltar para o login
@@ -77,6 +82,7 @@ const showRegisterText = ref(false)
 const loginForm = useForm({
     email: '',
     password: '',
+    remember: false
 })
 
 const submitLogin = () => {
