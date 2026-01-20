@@ -25,8 +25,6 @@ class AuthController extends Controller
                 'admin' => to_route('dashboard'),
                 default => to_route('home'),
             };
-
-            return redirect()->intended('/');
         }
 
         return back()->withErrors([
@@ -42,6 +40,7 @@ class AuthController extends Controller
             'telefone' => 'required|string|unique:users,telefone',
             'document' => 'required|string|unique:users,document',
             'password' => 'required|string|min:8',
+            'role' => 'required|in:user,admin',
         ]);
 
         $user = User::create([
@@ -49,12 +48,26 @@ class AuthController extends Controller
             'email' => $data['email'],
             'telefone' => $data['telefone'],
             'document' => $data['document'],
-            'role' => 'user',
+            'role' => $data['role'],
             'password' => $data['password'],
         ]);
 
         Auth::login($user);
 
-        return to_route('home');
+        return match ($user->role) {
+            'user' => to_route('home'),
+            'admin' => to_route('dashboard'),
+            default => to_route('home'),
+        };
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('auth');
     }
 }
