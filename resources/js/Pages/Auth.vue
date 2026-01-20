@@ -2,20 +2,20 @@
     <div class="w-full md:flex min-h-screen">
         <!-- Lado esquerdo -->
         <div
-            class="hidden md:flex md:flex-2 bg-linear-to-br from-blue-300 to-indigo-100 flex-col items-center justify-center">
+            class="hidden md:flex md:flex-2 bg-linear-to-br to-blue-300 from-indigo-100 flex-col items-center justify-center">
             <img src="../../assets/izimob-logo.png" alt="IziMob Logo" class="w-1/3" />
 
             <img src="../../assets/d1.svg" alt="Authentication Illustration" class="w-1/4" />
         </div>
 
         <div class="flex flex-col items-center justify-center md:flex-1 md:shadow-[0_0_30px_rgba(0,0,0,0.25)]">
-            <img src="../../assets/no-text-logo.png" class="w-1/5 mb-6" />
             <Transition enter-active-class="transition-opacity duration-400 ease-out" enter-from-class="opacity-0"
-                enter-to-class="opacity-100" leave-active-class="transition-opacity duration-400 ease-in"
-                leave-from-class="opacity-100" leave-to-class="opacity-0" mode="out-in">
-
-                <div v-if="!showRegisterText" key="login"
-                    class="flex flex-col items-center justify-center w-full max-w-[80%] p-6">
+            enter-to-class="opacity-100" leave-active-class="transition-opacity duration-400 ease-in"
+            leave-from-class="opacity-100" leave-to-class="opacity-0" mode="out-in">
+            
+            <div v-if="!showRegisterText" key="login"
+            class="flex flex-col items-center justify-center w-full max-w-[80%] p-6">
+            <img src="../../assets/no-text-logo.png" class="w-1/5 mb-6" />
                     <h2 class="text-2xl font-semibold mb-2">
                         Entrar em conta
                     </h2>
@@ -53,7 +53,7 @@
                     <h2 class="text-2xl font-semibold mb-2">
                         Criação de conta
                     </h2>
-                    <RegisterForm />
+                    <RegisterForm v-model="registerForm"/>
                     <div class="divider my-8">OU</div>
                     <button class="btn btn-secondary btn-outline w-full" @click="showRegisterText = false">
                         Voltar para o login
@@ -86,4 +86,13 @@ const submitLogin = () => {
         },
     })
 }
+
+const registerForm = useForm({
+    name: '',
+    email: '',
+    telefone: '',
+    document: '',
+    password: '',
+    role: 'user'
+})
 </script>

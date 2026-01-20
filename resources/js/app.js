@@ -5,6 +5,7 @@ import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import Layout from './Layouts/Layout.vue';
+import VueTheMask from 'vue-the-mask';
 
 createInertiaApp({
     title: title => `Izimob`,
@@ -18,6 +19,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(VueTheMask)
             .component('Link', Link)
             .component('Head', Head)
             .mount(el);
