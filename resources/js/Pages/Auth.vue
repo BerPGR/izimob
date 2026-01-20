@@ -53,7 +53,7 @@
                     <h2 class="text-2xl font-semibold mb-2">
                         Criação de conta
                     </h2>
-                    <RegisterForm v-model="registerForm"/>
+                    <RegisterForm v-model="registerForm" @submit="submitRegister"/>
                     <div class="divider my-8">OU</div>
                     <button class="btn btn-secondary btn-outline w-full" @click="showRegisterText = false">
                         Voltar para o login
@@ -85,6 +85,10 @@ const submitLogin = () => {
             loginForm.reset('password')
         },
     })
+}
+
+const submitRegister = async () => {
+    registerForm.post('/register')
 }
 
 const registerForm = useForm({
