@@ -16,7 +16,10 @@ class Authenticator
      */
     public function handle(Request $request, Closure $next, ?string $role = null): Response
     {
-        if (Auth::check() && Auth::user()->role === $role) {
+        if (!Auth::check()) {
+            return redirect('auth');
+        }
+        else if (Auth::check() && Auth::user()->role === $role) {
             return $next($request);
         }
 
