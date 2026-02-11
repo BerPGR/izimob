@@ -3,13 +3,10 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['checkRole:user'])->group(function () {
-    Route::inertia('/', 'Home')->name('home');
-});
+Route::get('/', [AuthController::class, 'index'])->name('index');
 
-Route::middleware(['checkRole:admin'])->group(function () {
-    Route::inertia('/dashboard', 'Dashboard')->name('dashboard');
-});
+Route::inertia('/home', 'Home')->name('client.home');
+Route::inertia('/dashboard', 'Dashboard')->name('admin.dashboard');
 
 Route::inertia('/auth', 'Auth')->name('auth');
 

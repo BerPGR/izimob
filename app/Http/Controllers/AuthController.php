@@ -8,6 +8,17 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+
+    public function index() {
+        if (Auth::check()) {
+            return Auth::user()->role === 'admin'
+                ? redirect()->route('admin.dashboard')
+                : redirect()->route('client.home');
+        }
+
+        return redirect()->route('auth');
+    }
+
     public function login(Request $request)
     {
         $credentials = $request->validate([
