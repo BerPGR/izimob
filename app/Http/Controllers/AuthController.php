@@ -11,7 +11,8 @@ class AuthController extends Controller
 
     public function index() {
         if (Auth::check()) {
-            return Auth::user()->role === 'admin'
+            $role = Auth::user()->role;
+            return $role === 'admin' || $role === 'user'
                 ? redirect()->route('admin.dashboard')
                 : redirect()->route('client.home');
         }
@@ -32,9 +33,10 @@ class AuthController extends Controller
             $user = Auth::user();
 
             return match ($user->role) {
-                'user' => to_route('home'),
-                'admin' => to_route('dashboard'),
-                default => to_route('home'),
+                'tenant' => to_route('client.home'),
+                'admin' => to_route('admin.dashboard'),
+                'user' => to_route('admin.dashboard'),
+                default => to_route('client.home'),
             };
         }
 
@@ -66,9 +68,9 @@ class AuthController extends Controller
         Auth::login($user);
 
         return match ($user->role) {
-            'user' => to_route('home'),
-            'admin' => to_route('dashboard'),
-            default => to_route('home'),
+            'tenant' => to_route('client.home'),
+            'admin' => to_route('admin.dashboard'),
+            default => to_route('admin.dashboard'),
         };
     }
 
