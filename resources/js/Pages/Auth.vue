@@ -1,6 +1,5 @@
 <template>
     <div class="w-full md:flex min-h-screen">
-        <!-- Lado esquerdo -->
         <div
             class="hidden md:flex md:flex-2 bg-linear-to-br to-blue-300 from-indigo-100 flex-col items-center justify-center">
             <img src="../../assets/izimob-logo.png" alt="IziMob Logo" class="w-1/3" />
@@ -13,7 +12,7 @@
                 enter-to-class="opacity-100" leave-active-class="transition-opacity duration-400 ease-in"
                 leave-from-class="opacity-100" leave-to-class="opacity-0" mode="out-in">
 
-                <div v-if="!showRegisterText" key="login"
+                <div v-if="!showRegisterText && !showRequestSuccess" key="login"
                     class="flex flex-col items-center justify-center w-full max-w-[80%] p-6">
                     <img src="../../assets/no-text-logo.png" class="w-1/5 mb-6" />
                     <h2 class="text-2xl font-semibold mb-2">
@@ -49,20 +48,30 @@
                     </form>
                     <div class="divider my-8">OU</div>
                     <button class="btn btn-secondary btn-outline w-full" @click="showRegisterText = true">
-                        Registre-se
+                        Solicitar acesso
                     </button>
                 </div>
 
-                <div v-else key="register-text"
+                <div v-else-if="showRegisterText && !showRequestSuccess" key="register-text"
                     class="flex flex-col items-center justify-center w-full max-w-[80%] p-6">
                     <h2 class="text-2xl font-semibold mb-2">
                         Criação de conta
                     </h2>
-                    <RegisterForm v-model="registerForm" @submit="submitRegister" />
+                    <RegisterForm :isLoading="isLoading" v-model="registerForm" @submit="submitRegister" />
                     <div class="divider my-8">OU</div>
                     <button class="btn btn-secondary btn-outline w-full" @click="showRegisterText = false">
                         Voltar para o login
                     </button>
+                </div>
+
+                <div v-else-if="showRequestSuccess" key="request-success"
+                    class="flex flex-col items-center justify-center w-full max-w-[80%] p-6">
+                    <h2 class="text-2xl font-semibold mb-2 text-green-600">
+                        Solicitação de acesso realizada com sucesso!
+                    </h2>
+                    <p class="text-center mb-6">
+                        Entraremos em contato em breve para fornecer mais informações sobre o processo de acesso.
+                    </p>
                 </div>
             </Transition>
         </div>
@@ -78,7 +87,8 @@ import RegisterForm from '../Components/RegisterForm.vue'
 defineOptions({ layout: NoHeaderLayout })
 
 const showRegisterText = ref(false)
-
+const showRequestSuccess = ref(false)
+const isLoading = ref<boolean>(false)
 const loginForm = useForm({
     email: '',
     password: '',
@@ -94,7 +104,22 @@ const submitLogin = () => {
 }
 
 const submitRegister = async () => {
-    registerForm.post('/register')
+    registerForm.post('/request-access', {
+        onBefore: () => {
+            isLoading.value = true
+        },
+        onSuccess: (page) => {
+            if(page.props.flash?.success) {
+                showRequestSuccess.value = true
+            } else {
+                alert('Houve um erro ao solicitar acesso. Por favor, tente novamente mais tarde.')
+            }
+            showRegisterText.value = false
+        },
+        onFinish: () => {
+            isLoading.value = false
+        },
+    })
 }
 
 const registerForm = useForm({
@@ -103,6 +128,6 @@ const registerForm = useForm({
     telefone: '',
     document: '',
     password: '',
-    role: 'user'
+    role: 'admin'
 })
 </script>

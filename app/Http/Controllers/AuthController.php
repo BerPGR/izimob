@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -56,6 +57,8 @@ class AuthController extends Controller
             'role' => 'required|in:user,admin',
         ]);
 
+        $data['password'] = Hash::make($data['password']);
+
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -65,13 +68,10 @@ class AuthController extends Controller
             'password' => $data['password'],
         ]);
 
-        Auth::login($user);
-
-        return match ($user->role) {
-            'tenant' => to_route('client.home'),
-            'admin' => to_route('admin.dashboard'),
-            default => to_route('admin.dashboard'),
-        };
+        //Auth::login($user);
+        if ($user->role === 'admin') {
+            return redirect()->back()->with('success', true);
+        }
     }
 
     public function logout(Request $request)

@@ -13,6 +13,6 @@ Route::inertia('/invite', 'Invite')->name('invite');
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login')->name('login');
-    Route::post('/register', 'register')->name('register');
+    Route::post('/request-access', 'register')->name('request-access');
     Route::post('/logout', 'logout')->name('logout');
 });
