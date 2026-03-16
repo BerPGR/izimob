@@ -10,6 +10,7 @@ Route::inertia('/dashboard', 'Dashboard')->name('admin.dashboard');
 
 Route::inertia('/auth', 'Auth')->name('auth');
 Route::inertia('/invite', 'Invite')->name('invite');
+Route::inertia('/requests', 'Request')->name('requests');
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login')->name('login');

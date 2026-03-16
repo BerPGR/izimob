@@ -25,6 +25,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function agency()
+    {
+        return $this->belongsTo(Agency::class);
+    }
+
     protected function casts(): array
     {
         return [

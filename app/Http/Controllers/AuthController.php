@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agency;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +59,15 @@ class AuthController extends Controller
         ]);
 
         $data['password'] = Hash::make($data['password']);
+
+        if ($data['role'] === 'admin') {
+            Agency::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'telefone' => $data['telefone'],
+                'document' => $data['document'],
+            ]);
+        }
 
         $user = User::create([
             'name' => $data['name'],
