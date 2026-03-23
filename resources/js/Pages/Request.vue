@@ -3,3 +3,11 @@
         <h1>Pagina de requests</h1>
     </div>
 </template>
+
+<script setup lang="ts">
+import { onMounted } from 'vue';
+
+onMounted(async() => {
+
+})
+</script>

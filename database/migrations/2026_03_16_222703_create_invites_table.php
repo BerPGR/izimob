@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('invites', function (Blueprint $table) {
             $table->id();
-            $table->string('email');
-            $table->string('token');
+            $table->string('email')->unique();
+            $table->string('token')->unique();
+            $table->string('role')->default('user');
             $table->uuid('agency_id');
+            $table->foreign('agency_id')->references('id')->on('agencies')->cascadeOnDelete();
+            $table->timestamp('expires_at');
             $table->timestamps();
         });
     }

@@ -40,7 +40,7 @@
                         </Link>
                     </li>
                     <li v-if="page.props.auth.user.role === 'admin'">
-                        <Link as="button" :href="route('requests')" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Solicitações">
+                        <Link as="button" :href="route('pendingUsers')" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Solicitações">
                             <div class="indicator">
                                 <span v-if="hasNotifications" class="indicator-item badge badge-primary badge-xs rounded-full"></span> 
                                 
