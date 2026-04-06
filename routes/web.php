@@ -11,6 +11,9 @@ Route::inertia('/dashboard', 'Dashboard')->name('admin.dashboard');
 
 Route::inertia('/auth', 'Auth')->name('auth');
 Route::inertia('/invite', 'Invite')->name('invite');
+
+Route::post('/users/{user}/accept', [UserController::class, 'acceptUser'])->name('users.accept');
+
 Route::controller(UserController::class)->group(function() {
     Route::get('/users', 'getPendingUsers')->name('pendingUsers');
 });

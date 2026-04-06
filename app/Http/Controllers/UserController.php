@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Throwable;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
@@ -12,22 +13,22 @@ class UserController extends Controller
     {
     }
 
-    public function acceptUser(Request $request, int $userId) {
+    public function acceptUser(Request $request, User $user) {
         try {
-            $user = User::findOrFail($userId);
-
             $user->status = 'active';
             $user->save();
 
-            return $user;
+            return redirect()->back()->with('message', 'Usuário ativo com sucesso!');
         } catch (Throwable $e) {
             throw new \Exception('Não foi possivel aceitar usuário: ' . $e->getMessage());
         }
     }
 
     public function getPendingUsers(Request $request) {
-        $pendingUsers = User::where('status', 'active')->get();
+        $pendingUsers = User::where('status', 'pending')->with('agency')->get();
 
-        dd($pendingUsers->all());
+        return Inertia::render('Request', [
+            'pendingUsers' => $pendingUsers
+        ]);
     }
 }
