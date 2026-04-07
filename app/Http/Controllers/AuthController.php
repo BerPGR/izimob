@@ -14,7 +14,7 @@ class AuthController extends Controller
     public function index() {
         if (Auth::check()) {
             $role = Auth::user()->role;
-            return $role === 'admin' || $role === 'user'
+            return $role === 'admin' || $role === 'user' || $role === 'master'
                 ? redirect()->route('admin.dashboard')
                 : redirect()->route('client.home');
         }
@@ -38,6 +38,7 @@ class AuthController extends Controller
                 'tenant' => to_route('client.home'),
                 'admin' => to_route('admin.dashboard'),
                 'user' => to_route('admin.dashboard'),
+                'master' => to_route('admin.dashboard'),
                 default => to_route('client.home'),
             };
         }

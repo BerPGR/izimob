@@ -33,13 +33,13 @@
                             <span class="is-drawer-close:hidden">Homepage</span>
                         </Link>
                     </li>
-                    <li v-if="page.props.auth.user.role === 'admin'">
+                    <li v-if="page.props.auth.user.role === 'admin' || page.props.auth.user.role === 'master'">
                         <Link as="button" :href="route('invite')" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Convidar Usuários">
                             <i class="pi pi-user-plus text-lg"/>
                             <span class="is-drawer-close:hidden">Convidar usuários</span>
                         </Link>
                     </li>
-                    <li v-if="page.props.auth.user.role === 'admin'">
+                    <li v-if="page.props.auth.user.role === 'master'">
                         <Link as="button" :href="route('pendingUsers')" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Solicitações">
                             <div class="indicator">
                                 <span v-if="hasNotifications" class="indicator-item badge badge-primary badge-xs rounded-full"></span> 
