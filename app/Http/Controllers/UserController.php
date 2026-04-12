@@ -24,6 +24,17 @@ class UserController extends Controller
         }
     }
 
+    public function rejectUser(Request $request, User $user) {
+        try {
+            $user->status = 'rejected';
+            $user->save();
+
+            return redirect()->back()->with('message', 'Usuário rejeitado com sucesso!');
+        } catch (Throwable $e) {
+            throw new \Exception('Não foi possivel rejeitar usuário: ' . $e->getMessage());
+        }
+    }
+
     public function getPendingUsers(Request $request) {
         $pendingUsers = User::where('status', 'pending')->with('agency')->get();
 

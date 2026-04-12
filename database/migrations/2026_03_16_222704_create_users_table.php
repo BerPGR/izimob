@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('document')->unique();
             $table->string('telefone')->unique();
             $table->string('password');
-            $table->enum('status', ['active', 'pending', 'inactive'])->default('pending');
+            $table->enum('status', ['active', 'pending', 'inactive', 'rejected'])->default('pending');
             $table->foreignUuid('agency_id')->nullable()->constrained()->nullOnDelete();
             $table->rememberToken();
             $table->timestamps();
