@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Throwable;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeMail;
 
 class UserController extends Controller
 {
@@ -17,6 +19,7 @@ class UserController extends Controller
         try {
             $user->status = 'active';
             $user->save();
+            Mail::to($user->email)->send(new WelcomeMail($user));
 
             return redirect()->back()->with('message', 'Usuário ativo com sucesso!');
         } catch (Throwable $e) {

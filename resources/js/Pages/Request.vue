@@ -2,6 +2,17 @@
   <div class="w-full min-h-[calc(100vh-6rem)] container mx-auto">
     <h1 class="text-3xl">Requisições de acesso</h1>
     <div
+      v-if="pendingUsers.length === 0"
+      class="mt-4 flex flex-items-center justify-center"
+    >
+      <div class="card bg-base-100 w-96 shadow-md">
+        <div class="card-body text-center">
+          <i class="pi pi-times-circle text-3xl"></i>
+          <p>Não há requisições pendentes.</p>
+        </div>
+      </div>
+    </div>
+    <div
       v-for="(user, i) in pendingUsers"
       :key="i"
       class="card shadow-md card-md"
