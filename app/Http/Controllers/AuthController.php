@@ -50,6 +50,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        $agency = null;
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -62,7 +63,7 @@ class AuthController extends Controller
         $data['password'] = Hash::make($data['password']);
 
         if ($data['role'] === 'admin') {
-            Agency::create([
+            $agency = Agency::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'telefone' => $data['telefone'],
@@ -77,9 +78,9 @@ class AuthController extends Controller
             'document' => $data['document'],
             'role' => $data['role'],
             'password' => $data['password'],
+            'agency_id' => $agency ? $agency->id : null,
         ]);
 
-        //Auth::login($user);
         if ($user->role === 'admin') {
             return redirect()->back()->with('success', true);
         }
