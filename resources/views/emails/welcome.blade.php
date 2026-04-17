@@ -4,8 +4,8 @@
 Sua solicitação de acesso a plataforma foi aprovada.
 Agora você pode gerenciar o sistema de sua imobiliária!
 
-<x-mail::button :url="url('/dashboard')">
-Button Text
+<x-mail::button :url="url('/auth')">
+    Acessar conta
 </x-mail::button>
 
 <x-mail::panel>
