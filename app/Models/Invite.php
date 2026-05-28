@@ -10,11 +10,17 @@ class Invite extends Model
     protected $fillable = ['agency_id', 'email', 'role', 'token', 'expires_at'];
 
     protected $casts = [
-        'expires_at'  => 'datetime',
+        'expires_at' => 'datetime',
         'accepted_at' => 'datetime',
     ];
 
-    public function agency() {
+    public function agency()
+    {
         return $this->belongsTo(Agency::class);
+    }
+
+    public function isPending(): bool
+    {
+        return $this->expires_at->isFuture() && $this->status !== 'accepted';
     }
 }

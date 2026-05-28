@@ -1,7 +1,9 @@
 <x-mail::message>
-# Olá
+# Olá! Tudo bem?
 
-<x-mail::button :url="''">
+Você foi convidado como **{{ $role }}** para utilizar o sistema {{ config('app.name') }}
+
+<x-mail::button :url="$url">
     Crie sua conta!
 </x-mail::button>
 

@@ -7,7 +7,7 @@
           Adicione os e-mails e defina as permissões para a sua equipe.
         </p>
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit()">
           <div
             v-for="(invite, index) in form.invitations"
             :key="index"
@@ -25,9 +25,6 @@
                 :class="{ 'input-error': form.errors[`invitations.${index}.email`] }"
                 required
               />
-              <div v-if="form.errors[`invitations.${index}.email`]" class="text-error text-sm mt-1">
-                {{ form.errors[`invitations.${index}.email`] }}
-              </div>
             </div>
 
             <div class="form-control w-full md:w-1/3">
@@ -119,7 +116,7 @@ const removeInvite = (index: number) => {
 }
 
 const submit = () => {
-  form.post(route('invites.store'), {
+  form.post(route('invite.send'), {
     preserveScroll: true,
     onSuccess: () => {
       form.reset()
